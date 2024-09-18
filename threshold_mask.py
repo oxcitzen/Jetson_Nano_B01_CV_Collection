@@ -27,6 +27,7 @@ cv2.imshow('BG_mask', bg_mask)
 cv2.moveWindow('BG_mask', 330, 440)
 
 # The inversion of bg_mask 
+# Black background with white logo
 fg_mask = cv2.bitwise_not(bg_mask)
 cv2.imshow('FG_mask', fg_mask)
 cv2.moveWindow('FG_mask', 330, 720)
@@ -35,6 +36,7 @@ cv2.moveWindow('FG_mask', 330, 720)
 # mask 
 # Pixels in the mask that are non-zero will have the operation applied to the corresponding pixels in the source image. 
 # Pixels in the mask that are zero (black, i.e., 0) will not be affected.  
+# Black background with color logo
 fg = cv2.bitwise_and(cv_logo , cv_logo, mask=fg_mask)
 cv2.imshow('FG', fg)
 cv2.moveWindow('FG', 660, 720)
