@@ -59,11 +59,14 @@ while True:
     # mask 
     # Pixels in the mask that are non-zero will have the operation applied to the corresponding pixels in the source image. 
     # Pixels in the mask that are zero (black, i.e., 0) will not be affected.
+    
+    # Frame with black logo
     bg = cv2.bitwise_and(frame, frame, mask=bg_mask)
     cv2.imshow('BG', bg)
     cv2.moveWindow('BG', 660, 440)
     
     
+    # Frame with color logo
     comp_image = cv2.add(bg, fg)
     cv2.imshow('comp_image', comp_image)
     cv2.moveWindow('comp_image', 990, 440)
@@ -72,16 +75,20 @@ while True:
     bv1 = cv2.getTrackbarPos('blend_v', 'blended') / 100
     bv2 = 1 - bv1
     
+    
     blended = cv2.addWeighted(frame, bv1, cv_logo, bv2, 0)
     cv2.imshow('blended', blended)
     cv2.moveWindow('blended', 990, 720)
     
     # Pixels in the mask that are zero (black, i.e., 0) will not be affected.
+    # Black background with pale logo frame
     fore_ground_2 = cv2.bitwise_and(blended , blended, mask=fg_mask)
     cv2.imshow('FG2', fore_ground_2)
     cv2.moveWindow('FG2', 1320, 440)
     
+
     #comp_final = cv2.addWeighted(frame, 1, fore_ground_2, 2, 2)
+    # Frame as background and with addtion of black and pale logo
     comp_final = cv2.add(bg, fore_ground_2)
     cv2.imshow('comp_final', comp_final)
     cv2.moveWindow('comp_final', 1320, 720)
