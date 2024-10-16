@@ -1,4 +1,7 @@
 import cv2
+import os 
+
+print(os.getcwd())
 
 dispW=320
 dispH=240
@@ -11,8 +14,14 @@ def nothing(x):
 cv2.namedWindow('blended')
 cv2.createTrackbar('blend_v', 'blended', 50, 100, nothing)
 
-cv_logo = cv2.imread('mask.jpg') 
-cv_logo = cv2.resize(cv_logo, (320, 240))
+# Use absolut path with Jetson Nano
+cv_logo = cv2.imread('/home/wei/Desktop/jetson_cv/Jetson_Nano_B01_CV_Collection/images/mask.jpg') 
+
+if cv_logo is None:
+    print(1)
+else:
+    cv_logo = cv2.resize(cv_logo, (320, 240))
+
 
 # To do thresholing with gray scale 
 cv_logo_gray = cv2.cvtColor(cv_logo, cv2.COLOR_BGR2GRAY) 
@@ -44,10 +53,10 @@ cv2.moveWindow('FG', 660, 720)
 
 
 #Uncomment These next Two Line for Pi Camera
-#camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
-#cam= cv2.VideoCapture(camSet)
+camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method=0 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
+cam= cv2.VideoCapture(camSet)
 
-cam=cv2.VideoCapture(0)
+#cam=cv2.VideoCapture(0)
 
 while True:
     ret, frame = cam.read()

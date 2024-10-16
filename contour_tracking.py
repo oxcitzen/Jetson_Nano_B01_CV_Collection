@@ -8,7 +8,7 @@ def nothing(x):
 cv2.namedWindow('Trackbars')
 cv2.moveWindow('Trackbars',1320,0)
  
-cv2.createTrackbar('hueLower', 'Trackbars',50,179,nothing)
+cv2.createTrackbar('hueLower', 'Trackbars',50,179,nothing)  
 cv2.createTrackbar('hueUpper', 'Trackbars',100,179,nothing)
  
 cv2.createTrackbar('hue2Lower', 'Trackbars',50,179,nothing)
@@ -24,7 +24,7 @@ dispW=640
 dispH=480
 flip=2
 #Uncomment These next Two Line for Pi Camera
-camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
+camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method=0 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 cam= cv2.VideoCapture(camSet)
  
 #Or, if you have a WEB cam, uncomment the next line
@@ -32,7 +32,9 @@ cam= cv2.VideoCapture(camSet)
 #cam=cv2.VideoCapture(0)
 while True:
     ret, frame = cam.read()
-    #frame=cv2.imread('smarties.png')
+
+    # Use absolute path with Jetson Nano
+    frame=cv2.imread('/home/wei/Desktop/jetson_cv/Jetson_Nano_B01_CV_Collection/images/smarties.png')
  
     hsv=cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
  
@@ -60,12 +62,12 @@ while True:
     cv2.imshow('FGmaskComp',FGmaskComp)
     cv2.moveWindow('FGmaskComp',0,530)
  
-    _,contours,_=cv2.findContours(FGmaskComp,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    contours,_=cv2.findContours(FGmaskComp,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     contours=sorted(contours,key=lambda x:cv2.contourArea(x),reverse=True)
     for cnt in contours:
         area=cv2.contourArea(cnt)
         (x,y,w,h)=cv2.boundingRect(cnt)
-        if area>=50:
+        if area>=100:
             #cv2.drawContours(frame,[cnt],0,(255,0,0),3)
             cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),3)
  

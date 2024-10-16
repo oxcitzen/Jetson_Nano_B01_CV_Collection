@@ -25,11 +25,12 @@ dispH=480
 flip=2
 
 #Un omment These next Two Line for Pi Camera
-#camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
-#cam= cv2.VideoCapture(camSet)
+
+camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method=0 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
+cam= cv2.VideoCapture(camSet)
 
 
-cam=cv2.VideoCapture(0)
+#cam=cv2.VideoCapture(0)
 
 while True:
     ret, frame = cam.read()
@@ -45,7 +46,7 @@ while True:
         if y2<y1 and x1<x2:
             roi = frame[y2:y1,x1:x2]   #right up    
         if y2<y1 and x2<x1:
-            roi = frame[y2:y1,x2:x1]   #left up
+            roi = frame[y2:y1,x2:x1]   #leftqqq up
             
         cv2.imshow('Copy_ROI', roi)
         

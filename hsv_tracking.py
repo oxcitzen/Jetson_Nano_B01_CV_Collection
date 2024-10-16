@@ -24,18 +24,19 @@ dispW=640
 dispH=480
 flip=2
 #Uncomment These next Two Line for Pi Camera
-#camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method='+str(flip)+' ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
-#cam= cv2.VideoCapture(camSet)
+camSet='nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, format=NV12, framerate=21/1 ! nvvidconv flip-method=0 ! video/x-raw, width='+str(dispW)+', height='+str(dispH)+', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
+cam= cv2.VideoCapture(camSet)
 
 #Or, if you have a WEB cam, uncomment the next line
 #(If it does not work, try setting to '1' instead of '0')
 
-cam=cv2.VideoCapture(0)
+#cam=cv2.VideoCapture(0)
 while True:
-    #ret, frame = cam.read()
+    ret, frame = cam.read()
     
-    frame=cv2.imread('smarties.png')
-    cv2.imshow('nanoCam',frame)
+    # Use absolute path with Jetson Nano
+    #frame=cv2.imread('/home/wei/Desktop/jetson_cv/Jetson_Nano_B01_CV_Collection/images/smarties.png')
+    cv2.imshow('nanoCam', frame)
     cv2.moveWindow('nanoCam',0,0)
 
     hsv=cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
